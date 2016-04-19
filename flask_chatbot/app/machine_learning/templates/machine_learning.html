@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Machine learning</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            namespace = '/machinelearning';
+            var msgCount = 1;
+
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+
+            socket.on('response', function(msg) {
+                $('#log').append('<br>' + $('<div/>').text('Bot #' + msgCount + ': ' + msg.data).html());
+                msgCount += 1;
+            });
+            $('form#emit').submit(function(event) {
+                socket.emit('message', {data: $('#emit_data').val()});
+                $('#log').append('<br>' + $('<div/>').text('You #' + msgCount + ': ' + $('#emit_data').val()).html());
+                msgCount += 1;
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Machine learning bot test (chatterbot, NTLK)</h1>
+    <ul>
+      <li>
+        ask mathematical questions
+      </li>
+      <li>
+        ask time and date question
+      </li>
+      <li>
+        response to greetings, basic conversation and some trivias in English. <a href="https://github.com/gunthercox/ChatterBot/tree/master/chatterbot/corpus/data/english">https://github.com/gunthercox/ChatterBot/tree/master/chatterbot/corpus/data/english</a>
+      </li>
+      <li>
+        the bot will continue to learn to get more accurate responses
+      </li>
+      <li>
+        training the bot manually is possible
+      </li>
+    </ul>
+    <h2>Send:</h2>
+    <form id="emit" method="POST" action='#'>
+        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+        <input type="submit" value="Echo">
+    </form>
+    <h2>Receive:</h2>
+    <div id="log"></div>
+</body>
+</html>
