@@ -20,4 +20,4 @@ actions = {
     'error': error,
 }
 
-client = Wit('RIXBHE3PJMYKAVLJQPPULB7AQ5VOSYYL', actions)
+client = Wit('YOUR API KEY', actions)
